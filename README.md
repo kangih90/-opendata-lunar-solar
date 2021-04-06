@@ -1,2 +1,2 @@
-# opendata-lunar-solar
+# publicdata-lunar-solar
 공공데이터포털 - (천문우주정보)음력일정보, 양력일정보, 특정음력일정보, 율리우스적일정보를 조회
