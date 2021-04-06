@@ -1,6 +1,6 @@
 {
   "name": "@publicdata/lunar-solar",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "공공데이터포털 - (천문우주정보)음력일정보, 양력일정보, 특정음력일정보, 율리우스적일정보를 조회",
   "main": "src/index.js",
   "scripts": {
@@ -8,15 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kangih90/opendata-lunar-solar.git"
+    "url": "git+https://github.com/kangih90/publicdata-lunar-solar.git"
   },
-  "keywords": [],
+  "keywords": [
+    "lunar","solar","calendar","date","publicdata","공공데이터포털","음력","양력","날짜변환","율리우스적일"
+  ],
   "author": "Goo Kang <kangih90@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kangih90/opendata-lunar-solar/issues"
+    "url": "https://github.com/kangih90/publicdata-lunar-solar/issues"
   },
-  "homepage": "https://github.com/kangih90/opendata-lunar-solar#readme",
+  "homepage": "https://github.com/kangih90/publicdata-lunar-solar#readme",
   "dependencies": {
     "fast-xml-parser": "^3.19.0",
     "he": "^1.2.0",
