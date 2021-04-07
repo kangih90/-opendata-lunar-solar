@@ -15,6 +15,9 @@ const calendar = {
     apiKey: 'FrfJ9dHacz+F1C/eZu2y6H3/IkpYoXks9WESSb89+tGAKHSCoEPkVjMMbYpaklLevH92hAsOX/0RjxXiU8BTiw==',
     apiUrlToLunar: 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getLunCalInfo',
     apiUrlToSolar: 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getSolCalInfo',
+    apiUrlToSolars: 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getSpcifyLunCalInfo',
+    apiUrlToJulius: 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getJulDayInfo',
+
     parserOptions : {
         attributeNamePrefix : "@_",
         attrNodeName: "attr", //default is 'false'
@@ -131,4 +134,96 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
     return true;
 }
 
+
+calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth, callback, apiKey) {
+
+    if (!fromSolYear || !toSolYear || !lunMonth || !leapMonth) {
+        console.error('Error: input parameters! required not empty.');
+        return false;
+    }
+    if (typeof fromSolYear != 'string' || typeof toSolYear != 'string' || typeof lunMonth != 'string' || typeof lunDay != 'string') {
+        console.error('Error: input parameters! required only string type');
+        return false;
+    }
+    if (fromSolYear.length < 4 || toSolYear.length < 4 || lunMonth.length < 2) {
+        console.error('Error: input parameters! invalid string length (4,2,2)');
+        return false;
+    }
+    if (!callback || typeof callback != 'function') {
+        console.error('Error: input parameters! required callback function.');
+        return false;
+    }
+    console.log(`toSolars(${fromSolYear}, ${toSolYear}, ${lunMonth}, ${lunDay}, ${leapMonth})`);
+
+    let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
+    params += '&fromSolYear=' + encodeURIComponent(fromSolYear); /**/
+    params += '&toSolYear=' + encodeURIComponent(toSolYear); /**/
+    params += '&lunMonth=' + encodeURIComponent(lunMonth); /**/
+    params += '&lunDay=' + encodeURIComponent(lunDay); /**/
+    params += '&leapMonth=' + encodeURIComponent(leapMonth); /**/
+    
+    request({
+        url: this.apiUrlToSolars + params,
+        method: 'GET'
+    }, function(error, response, body){
+        if (error) {
+            console.error(error);
+        } else {
+            if (response.statusCode == 200) {
+                if (parser.validate(body) === true) {
+                    let json = parser.parse(body, this.parserOptions);
+                    if (json && json.response && json.response.body && json.response.body.items) {
+                        // console.log(json.response.body.items.item);
+                        callback(json.response.body.items);
+                    }
+                }
+            }
+        }
+        // console.log('Status', response.statusCode);
+        // console.log('Response received', body);
+    });
+    return true;
+}
+
+calendar.toJulius = function(solJd, callback, apiKey) {
+
+    if (!solJd) {
+        console.error('Error: input parameters! required not empty.');
+        return false;
+    }
+    if (typeof solJd != 'string') {
+        console.error('Error: input parameters! required only string type');
+        return false;
+    }
+    if (!callback || typeof callback != 'function') {
+        console.error('Error: input parameters! required callback function.');
+        return false;
+    }
+    console.log(`toJulius(${solJd})`);
+
+    let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
+    params += '&solJd=' + encodeURIComponent(solJd); /**/
+    
+    request({
+        url: this.apiUrlToJulius + params,
+        method: 'GET'
+    }, function(error, response, body){
+        if (error) {
+            console.error(error);
+        } else {
+            if (response.statusCode == 200) {
+                if (parser.validate(body) === true) {
+                    let json = parser.parse(body, this.parserOptions);
+                    if (json && json.response && json.response.body && json.response.body.items) {
+                        // console.log(json.response.body.items.item);
+                        callback(json.response.body.items);
+                    }
+                }
+            }
+        }
+        // console.log('Status', response.statusCode);
+        // console.log('Response received', body);
+    });
+    return true;
+}
 module.exports = calendar;

@@ -1,6 +1,3 @@
-# publicdata-lunar-solar
-공공데이터포털 - (천문우주정보)음력일정보, 양력일정보, 특정음력일정보, 율리우스적일정보를 조회
-
 const calendar = require('./index.js');
 // const calendar = require('@publicdata/lunar-solar');
 
@@ -11,13 +8,12 @@ const apiKey = '';
 let bOk = false;
 
 // 1. solar to lunar
-```
 bOk = calendar.toLunar('2021', '06', '20', function(json){
     if (bOk) {
         console.log(json);
     }
 }, apiKey);
-```
+
 /* console.log
 toLunar(2021, 06, 20)
 {
