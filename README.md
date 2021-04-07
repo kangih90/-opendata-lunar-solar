@@ -1,16 +1,19 @@
 # publicdata-lunar-solar
 공공데이터포털 - (천문우주정보)음력일정보, 양력일정보, 특정음력일정보, 율리우스적일정보를 조회
 
-const calendar = require('./index.js');
-// const calendar = require('@publicdata/lunar-solar');
+```
+npm install @publicdata/lunar-solar
+```
 
+```
+const calendar = require('@publicdata/lunar-solar');
 // own API KEY
 // https://www.data.go.kr/data/15012679/openapi.do
-const apiKey = '';
-// const apiKey = 'FrfJ9~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~U8BTiw==';
+const apiKey = 'FrfJ9~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~U8BTiw==';
 let bOk = false;
+```
 
-// 1. solar to lunar
+# 1. solar to lunar
 ```
 bOk = calendar.toLunar('2021', '06', '20', function(json){
     if (bOk) {
@@ -18,7 +21,9 @@ bOk = calendar.toLunar('2021', '06', '20', function(json){
     }
 }, apiKey);
 ```
-/* console.log
+
+console.log
+```
 toLunar(2021, 06, 20)
 {
   lunDay: 11,
@@ -36,16 +41,19 @@ toLunar(2021, 06, 20)
   solWeek: '일',
   solYear: 2021
 }
-*/
+```
 
-// 2. lunar to solar
+# 2. lunar to solar
+```
 bOk = calendar.toSolar('2021', '06', '20', function(json){
     if (bOk) {
         console.log(json);
     }
 }, apiKey);
+```
 
-/* console.log
+console.log
+```
 toSolar(2021, 06, 20)
 {
     lunDay: 20,
@@ -63,16 +71,19 @@ toSolar(2021, 06, 20)
     solWeek: '목',
     solYear: 2021
 }
-*/
+```
 
-// 3. specified lunar date.
+# 3. specified lunar date.
+```
 bOk = calendar.toSolars('2020', '2022', '06', '20', '평', function(json){
     if (bOk) {
         console.log(json);
     }
 }, apiKey);
+```
 
-/* console.log
+console.log
+```
 toSolars(2020, 2022, 06, 20, 평)
 {
   item: [
@@ -126,16 +137,19 @@ toSolars(2020, 2022, 06, 20, 평)
     }
   ]
 }
-*/
+```
 
-// 4. julius date.
+# 4. julius date.
+```
 bOk = calendar.toJulius('2229156', function(json){
     if (bOk) {
         console.log(json);
     }
 }, apiKey);
+```
 
-/* console.log
+console.log
+```
 toJulius(2229156)
 {
   item: {
@@ -155,4 +169,4 @@ toJulius(2229156)
     solYear: 1391
   }
 }
-*/
+```
