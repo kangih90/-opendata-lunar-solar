@@ -53,6 +53,7 @@ calendar.toLunar = function(year, month, day, callback, apiKey) {
         console.error('Error: input parameters! required callback function.');
         return false;
     }
+    console.log(`toLunar(${year}, ${month}, ${day})`);
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&solYear=' + encodeURIComponent(year); /**/
@@ -70,14 +71,14 @@ calendar.toLunar = function(year, month, day, callback, apiKey) {
                 if (parser.validate(body) === true) {
                     let json = parser.parse(body, this.parserOptions);
                     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
-                        console.log(json.response.body.items.item);
+                        // console.log(json.response.body.items.item);
                         callback(json.response.body.items.item);
                     }
                 }
             }
         }
-        console.log('Status', response.statusCode);
-        console.log('Response received', body);
+        // console.log('Status', response.statusCode);
+        // console.log('Response received', body);
     });
     return true;
 }
@@ -100,6 +101,7 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
         console.error('Error: input parameters! required callback function.');
         return false;
     }
+    console.log(`toSolar(${year}, ${month}, ${day})`);
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&lunYear=' + encodeURIComponent(year); /**/
@@ -117,14 +119,14 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
                 if (parser.validate(body) === true) {
                     let json = parser.parse(body, this.parserOptions);
                     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
-                        console.log(json.response.body.items.item);
+                        // console.log(json.response.body.items.item);
                         callback(json.response.body.items.item);
                     }
                 }
             }
         }
-        console.log('Status', response.statusCode);
-        console.log('Response received', body);
+        // console.log('Status', response.statusCode);
+        // console.log('Response received', body);
     });
     return true;
 }

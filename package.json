@@ -11,7 +11,16 @@
     "url": "git+https://github.com/kangih90/publicdata-lunar-solar.git"
   },
   "keywords": [
-    "lunar","solar","calendar","date","publicdata","공공데이터포털","음력","양력","날짜변환","율리우스적일"
+    "lunar",
+    "solar",
+    "calendar",
+    "date",
+    "publicdata",
+    "공공데이터포털",
+    "음력",
+    "양력",
+    "날짜변환",
+    "율리우스적일"
   ],
   "author": "Goo Kang <kangih90@gmail.com>",
   "license": "MIT",
