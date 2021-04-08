@@ -85,8 +85,16 @@ calendar.toLunar = function(year, month, day, callback, apiKey) {
                     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
                         // console.log(json.response.body.items.item);
                         callback(json.response.body.items.item);
+                    } else if (json.OpenAPI_ServiceResponse) {
+                        console.error(json.OpenAPI_ServiceResponse);
+                    } else {
+                        console.log('else json');
                     }
+                } else {
+                    console.error('Parsing error');
                 }
+            } else {
+                console.error('StatusCode was not 200');
             }
         }
         // console.log('Status', response.statusCode);
@@ -133,8 +141,16 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
                     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
                         // console.log(json.response.body.items.item);
                         callback(json.response.body.items.item);
+                    } else if (json.OpenAPI_ServiceResponse) {
+                        console.error(json.OpenAPI_ServiceResponse);
+                    } else {
+                        console.log('else json');
                     }
+                } else {
+                    console.error('Parsing error');
                 }
+            } else {
+                console.error('StatusCode was not 200');
             }
         }
         // console.log('Status', response.statusCode);
@@ -184,8 +200,16 @@ calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth
                     if (json && json.response && json.response.body && json.response.body.items) {
                         // console.log(json.response.body.items.item);
                         callback(json.response.body.items);
+                    } else if (json.OpenAPI_ServiceResponse) {
+                        console.error(json.OpenAPI_ServiceResponse);
+                    } else {
+                        console.log('else json');
                     }
+                } else {
+                    console.error('Parsing error');
                 }
+            } else {
+                console.error('StatusCode was not 200');
             }
         }
         // console.log('Status', response.statusCode);
@@ -226,8 +250,16 @@ calendar.toJulius = function(solJd, callback, apiKey) {
                     if (json && json.response && json.response.body && json.response.body.items) {
                         // console.log(json.response.body.items.item);
                         callback(json.response.body.items);
+                    } else if (json.OpenAPI_ServiceResponse) {
+                        console.error(json.OpenAPI_ServiceResponse);
+                    } else {
+                        console.log('else json');
                     }
+                } else {
+                    console.error('Parsing error');
                 }
+            } else {
+                console.error('StatusCode was not 200');
             }
         }
         // console.log('Status', response.statusCode);
