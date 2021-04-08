@@ -1,6 +1,15 @@
 /*!
  * Transfer date between solar and lunar calendar using api http://data.go.kr.
  * 공공데이터포털 - (천문우주정보)음력일정보, 양력일정보, 특정음력일정보, 율리우스적일정보를 조회.
+ * 
+ * API KEY
+ * 이 키는 사용 횟수에 제한이 있습니다. 다른 사용자들을 위하여, 평가 및 테스트 용도로 만 사용해주세요.
+ * 운영 용도로 사용하실때는 아래 링크에서 발급 받으시기 바랍니다.
+ * 키를 입력하지 않으면, 내부의 평가용 키가 사용됩니다.
+ * This key has a limit on the number of uses. For other users, please use it only for evaluation and testing purposes.
+ * When you use it for operational purposes, please issue it at the link below.
+ * If you do not enter a key, the internal evaluation key is used.
+ * 
  * https://www.data.go.kr/data/15012679/openapi.do
  * 
  * @author Goo Kang <kangih90@gmail.com>
