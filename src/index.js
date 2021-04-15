@@ -47,7 +47,26 @@ const calendar = {
     }
 };
 
+// check parameter - 
+calendar.check = function(value, digit) {
+
+    if (!digit) return false;
+    if (typeof digit === 'string') digit = parseInt(digit);
+    if (digit <= 0) return false;
+
+    if (!value) return false;
+    if (typeof value !== 'string') value = value.toString();
+
+    if (value.length > digit) return value.substring(0, digit);
+    else if (value.length == digit) return value;
+    return value.padStart(digit, '0');
+}
+
 calendar.toLunar = function(year, month, day, callback, apiKey) {
+
+    year = this.check(year, 4);
+    month = this.check(month, 2);
+    day = this.check(day, 2);
 
     if (!year || !month || !day) {
         console.error('Error: input parameters! required not empty.');
@@ -104,6 +123,10 @@ calendar.toLunar = function(year, month, day, callback, apiKey) {
 }
 
 calendar.toSolar = function(year, month, day, callback, apiKey) {
+
+    year = this.check(year, 4);
+    month = this.check(month, 2);
+    day = this.check(day, 2);
 
     if (!year || !month || !day) {
         console.error('Error: input parameters! required not empty.');
@@ -162,7 +185,12 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
 
 calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth, callback, apiKey) {
 
-    if (!fromSolYear || !toSolYear || !lunMonth || !leapMonth) {
+    fromSolYear = this.check(fromSolYear, 4);
+    toSolYear = this.check(toSolYear, 4);
+    lunMonth = this.check(lunMonth, 2);
+    lunDay = this.check(lunDay, 2);
+
+    if (!fromSolYear || !toSolYear || !lunMonth) {
         console.error('Error: input parameters! required not empty.');
         return false;
     }
@@ -179,6 +207,8 @@ calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth
         return false;
     }
     console.log(`toSolars(${fromSolYear}, ${toSolYear}, ${lunMonth}, ${lunDay}, ${leapMonth})`);
+
+    leapMonth = leapMonth ? '윤' : '평';
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&fromSolYear=' + encodeURIComponent(fromSolYear); /**/

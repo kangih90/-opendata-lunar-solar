@@ -70,7 +70,7 @@ toSolar(2021, 06, 20)
 */
 
 // 3. specified lunar date.
-bOk = calendar.toSolars('2020', '2022', '06', '20', '평', function(json){
+bOk = calendar.toSolars('2020', '2022', '06', '20', false, function(json){
     if (bOk) {
         console.log(json);
     }
