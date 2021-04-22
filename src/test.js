@@ -160,3 +160,146 @@ toJulius(2229156)
   }
 }
 */
+
+let item = false;
+// 5. solar to lunar async
+item = calendar.toLunarAsync('2021', '06', '20', apiKey);
+if (item) {
+  console.log(item);
+}
+
+/* console.log
+toLunar(2021, 06, 20)
+{
+lunDay: 11,
+lunIljin: '기해(己亥)',
+lunLeapmonth: '평',
+lunMonth: 5,
+lunNday: 30,
+lunSecha: '신축(辛丑)',
+lunWolgeon: '갑오(甲午)',
+lunYear: 2021,
+solDay: 20,
+solJd: 2459386,
+solLeapyear: '평',
+solMonth: 6,
+solWeek: '일',
+solYear: 2021
+}
+*/
+
+// 6. lunar to solar async
+item = calendar.toSolarAsync('2021', '06', '20', apiKey);
+if (item) {
+  console.log(item);
+}
+
+/* console.log
+toSolar(2021, 06, 20)
+{
+  lunDay: 20,
+  lunIljin: '무인(戊寅)',
+  lunLeapmonth: '평',
+  lunMonth: 6,
+  lunNday: 29,
+  lunSecha: '신축(辛丑)',
+  lunWolgeon: '을미(乙未)',
+  lunYear: 2021,
+  solDay: 29,
+  solJd: 2459425,
+  solLeapyear: '평',
+  solMonth: 7,
+  solWeek: '목',
+  solYear: 2021
+}
+*/
+
+// 7. specified lunar date async
+item = calendar.toSolarsAsync('2020', '2022', '06', '20', false, apiKey);
+if (item) {
+  console.log(item);
+}
+
+/* console.log
+toSolars(2020, 2022, 06, 20, false)
+{
+item: [
+  {
+    lunDay: 20,
+    lunIljin: '갑신(甲申)',
+    lunLeapmonth: '평',
+    lunMonth: 6,
+    lunNday: 20,
+    lunSecha: '경자(庚子)',
+    lunWolgeon: '계미(癸未)',
+    lunYear: 2020,
+    solDay: 9,
+    solJd: 2459071,
+    solLeapyear: '윤',
+    solMonth: 8,
+    solWeek: '일',
+    solYear: 2020
+  },
+  {
+    lunDay: 20,
+    lunIljin: '무인(戊寅)',
+    lunLeapmonth: '평',
+    lunMonth: 6,
+    lunNday: 20,
+    lunSecha: '신축(辛丑)',
+    lunWolgeon: '을미(乙未)',
+    lunYear: 2021,
+    solDay: 29,
+    solJd: 2459425,
+    solLeapyear: '평',
+    solMonth: 7,
+    solWeek: '목',
+    solYear: 2021
+  },
+  {
+    lunDay: 20,
+    lunIljin: '임신(壬申)',
+    lunLeapmonth: '평',
+    lunMonth: 6,
+    lunNday: 20,
+    lunSecha: '임인(壬寅)',
+    lunWolgeon: '정미(丁未)',
+    lunYear: 2022,
+    solDay: 18,
+    solJd: 2459779,
+    solLeapyear: '평',
+    solMonth: 7,
+    solWeek: '월',
+    solYear: 2022
+  }
+]
+}
+*/
+
+// 8. julius date async
+item = calendar.toJuliusAsync('2229156', apiKey);
+if (item) {
+  console.log(item);
+}
+
+/* console.log
+toJulius(2229156)
+{
+item: {
+  lunDay: 1,
+  lunIljin: '기축(己丑)',
+  lunLeapmonth: '평',
+  lunMonth: 1,
+  lunNday: 29,
+  lunSecha: '신미(辛未)',
+  lunWolgeon: '경인(庚寅)',
+  lunYear: 1391,
+  solDay: 5,
+  solJd: 2229156,
+  solLeapyear: '평',
+  solMonth: 2,
+  solWeek: '일',
+  solYear: 1391
+}
+}
+*/

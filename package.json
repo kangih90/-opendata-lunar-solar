@@ -4,7 +4,7 @@
   "description": "공공데이터포털 - (천문우주정보)음력일정보, 양력일정보, 특정음력일정보, 율리우스적일정보를 조회",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc --reporter html mocha"
   },
   "repository": {
     "type": "git",
@@ -29,8 +29,13 @@
   },
   "homepage": "https://github.com/kangih90/publicdata-lunar-solar#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "fast-xml-parser": "^3.19.0",
     "he": "^1.2.0",
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0"
   }
 }
