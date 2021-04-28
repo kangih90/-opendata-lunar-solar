@@ -26,7 +26,7 @@ const calendar = {
     apiUrlToSolar: 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getSolCalInfo',
     apiUrlToSolars: 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getSpcifyLunCalInfo',
     apiUrlToJulius: 'http://apis.data.go.kr/B090041/openapi/service/LrsrCldInfoService/getJulDayInfo',
-
+    isDebug: false, // debug mode - out console.log
     parserOptions : {
         attributeNamePrefix : "@_",
         attrNodeName: "attr", //default is 'false'
@@ -63,9 +63,15 @@ calendar.check = function(value, digit) {
 }
 
 calendar.doRequest = async function(url) {
+
+    if (this.isDebug) { // debug out
+        console.log(`doRequest(${url})`);
+    }
     try {
         const response = await axios.get(url);
-        // console.log(response.data);
+        if (this.isDebug) { // debug out
+            console.log(response.data);
+        }
         return response.data;
     }
     catch(error) {
@@ -75,6 +81,10 @@ calendar.doRequest = async function(url) {
 }
 
 calendar.toLunar = function(year, month, day, callback, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toLunar(${year}, ${month}, ${day})`);
+    }
 
     year = this.check(year, 4);
     month = this.check(month, 2);
@@ -96,13 +106,13 @@ calendar.toLunar = function(year, month, day, callback, apiKey) {
         console.error('Error: input parameters! required callback function.');
         return false;
     }
-    console.log(`toLunar(${year}, ${month}, ${day})`);
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&solYear=' + encodeURIComponent(year); /**/
     params += '&solMonth=' + encodeURIComponent(month); /**/
     params += '&solDay=' + encodeURIComponent(day); /**/
-    
+
+    let isDebugInRequest = this.isDebug;
     request({
         url: this.apiUrlToLunar + params,
         method: 'GET'
@@ -114,7 +124,9 @@ calendar.toLunar = function(year, month, day, callback, apiKey) {
                 if (parser.validate(body) === true) {
                     let json = parser.parse(body, this.parserOptions);
                     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
-                        // console.log(json.response.body.items.item);
+                        if (isDebugInRequest) { // debug out
+                            console.log(json.response.body.items.item);
+                        }
                         callback(json.response.body.items.item);
                     } else if (json.OpenAPI_ServiceResponse) {
                         console.error(json.OpenAPI_ServiceResponse);
@@ -128,13 +140,19 @@ calendar.toLunar = function(year, month, day, callback, apiKey) {
                 console.error('StatusCode was not 200');
             }
         }
-        // console.log('Status', response.statusCode);
-        // console.log('Response received', body);
+        if (isDebugInRequest) { // debug out
+            console.log('Status', response.statusCode);
+            console.log('Response received', body);
+        }
     });
     return true;
 }
 
 calendar.toSolar = function(year, month, day, callback, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toSolar(${year}, ${month}, ${day})`);
+    }
 
     year = this.check(year, 4);
     month = this.check(month, 2);
@@ -156,13 +174,13 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
         console.error('Error: input parameters! required callback function.');
         return false;
     }
-    console.log(`toSolar(${year}, ${month}, ${day})`);
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&lunYear=' + encodeURIComponent(year); /**/
     params += '&lunMonth=' + encodeURIComponent(month); /**/
     params += '&lunDay=' + encodeURIComponent(day); /**/
     
+    let isDebugInRequest = this.isDebug;
     request({
         url: this.apiUrlToSolar + params,
         method: 'GET'
@@ -174,7 +192,9 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
                 if (parser.validate(body) === true) {
                     let json = parser.parse(body, this.parserOptions);
                     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
-                        // console.log(json.response.body.items.item);
+                        if (isDebugInRequest) { // debug out
+                            console.log(json.response.body.items.item);
+                        }
                         callback(json.response.body.items.item);
                     } else if (json.OpenAPI_ServiceResponse) {
                         console.error(json.OpenAPI_ServiceResponse);
@@ -188,14 +208,20 @@ calendar.toSolar = function(year, month, day, callback, apiKey) {
                 console.error('StatusCode was not 200');
             }
         }
-        // console.log('Status', response.statusCode);
-        // console.log('Response received', body);
+        if (isDebugInRequest) { // debug out
+            console.log('Status', response.statusCode);
+            console.log('Response received', body);
+        }
     });
     return true;
 }
 
 
 calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth, callback, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toSolars(${fromSolYear}, ${toSolYear}, ${lunMonth}, ${lunDay}, ${leapMonth})`);
+    }
 
     fromSolYear = this.check(fromSolYear, 4);
     toSolYear = this.check(toSolYear, 4);
@@ -218,7 +244,6 @@ calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth
         console.error('Error: input parameters! required callback function.');
         return false;
     }
-    console.log(`toSolars(${fromSolYear}, ${toSolYear}, ${lunMonth}, ${lunDay}, ${leapMonth})`);
 
     leapMonth = leapMonth ? '윤' : '평';
 
@@ -229,6 +254,7 @@ calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth
     params += '&lunDay=' + encodeURIComponent(lunDay); /**/
     params += '&leapMonth=' + encodeURIComponent(leapMonth); /**/
     
+    let isDebugInRequest = this.isDebug;
     request({
         url: this.apiUrlToSolars + params,
         method: 'GET'
@@ -240,7 +266,9 @@ calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth
                 if (parser.validate(body) === true) {
                     let json = parser.parse(body, this.parserOptions);
                     if (json && json.response && json.response.body && json.response.body.items) {
-                        // console.log(json.response.body.items.item);
+                        if (isDebugInRequest) { // debug out
+                            console.log(json.response.body.items.item);
+                        }
                         callback(json.response.body.items);
                     } else if (json.OpenAPI_ServiceResponse) {
                         console.error(json.OpenAPI_ServiceResponse);
@@ -254,13 +282,19 @@ calendar.toSolars = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth
                 console.error('StatusCode was not 200');
             }
         }
-        // console.log('Status', response.statusCode);
-        // console.log('Response received', body);
+        if (isDebugInRequest) { // debug out
+            console.log('Status', response.statusCode);
+            console.log('Response received', body);
+        }
     });
     return true;
 }
 
 calendar.toJulius = function(solJd, callback, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toJulius(${solJd})`);
+    }
 
     if (!solJd) {
         console.error('Error: input parameters! required not empty.');
@@ -274,11 +308,11 @@ calendar.toJulius = function(solJd, callback, apiKey) {
         console.error('Error: input parameters! required callback function.');
         return false;
     }
-    console.log(`toJulius(${solJd})`);
-
+    
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&solJd=' + encodeURIComponent(solJd); /**/
     
+    let isDebugInRequest = this.isDebug;
     request({
         url: this.apiUrlToJulius + params,
         method: 'GET'
@@ -289,9 +323,11 @@ calendar.toJulius = function(solJd, callback, apiKey) {
             if (response.statusCode == 200) {
                 if (parser.validate(body) === true) {
                     let json = parser.parse(body, this.parserOptions);
-                    if (json && json.response && json.response.body && json.response.body.items) {
-                        // console.log(json.response.body.items.item);
-                        callback(json.response.body.items);
+                    if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
+                        if (isDebugInRequest) { // debug out
+                            console.log(json.response.body.items.item);
+                        }
+                        callback(json.response.body.items.item);
                     } else if (json.OpenAPI_ServiceResponse) {
                         console.error(json.OpenAPI_ServiceResponse);
                     } else {
@@ -304,13 +340,19 @@ calendar.toJulius = function(solJd, callback, apiKey) {
                 console.error('StatusCode was not 200');
             }
         }
-        // console.log('Status', response.statusCode);
-        // console.log('Response received', body);
+        if (isDebugInRequest) { // debug out
+            console.log('Status', response.statusCode);
+            console.log('Response received', body);
+        }
     });
     return true;
 }
 
-calendar.toLunarAsync = function(year, month, day, apiKey) {
+calendar.toLunarAsync = async function(year, month, day, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toLunarAsync(${year}, ${month}, ${day})`);
+    }
 
     year = this.check(year, 4);
     month = this.check(month, 2);
@@ -328,24 +370,32 @@ calendar.toLunarAsync = function(year, month, day, apiKey) {
         console.error('Error: input parameters! invalid string length (4,2,2)');
         return false;
     }
-    console.log(`toLunarAsync(${year}, ${month}, ${day})`);
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&solYear=' + encodeURIComponent(year); /**/
     params += '&solMonth=' + encodeURIComponent(month); /**/
     params += '&solDay=' + encodeURIComponent(day); /**/
     
-    let json = this.doRequest(this.apiUrlToLunar + params);
-    console.log(json);
+    let json = await this.doRequest(this.apiUrlToLunar + params);
+    if (this.isDebug) { // debug out
+        console.log(json);
+    }
+
     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
-        // console.log(json.response.body.items.item);
+        if (this.isDebug) { // debug out
+            console.log(json.response.body.items.item);
+        }
         return json.response.body.items.item;
     }
 
     return false;
 }
 
-calendar.toSolarAsync = function(year, month, day, apiKey) {
+calendar.toSolarAsync = async function(year, month, day, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toSolarAsync(${year}, ${month}, ${day})`);
+    }
 
     year = this.check(year, 4);
     month = this.check(month, 2);
@@ -363,23 +413,32 @@ calendar.toSolarAsync = function(year, month, day, apiKey) {
         console.error('Error: input parameters! invalid string length (4,2,2)');
         return false;
     }
-    console.log(`toSolarAsync(${year}, ${month}, ${day})`);
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&lunYear=' + encodeURIComponent(year); /**/
     params += '&lunMonth=' + encodeURIComponent(month); /**/
     params += '&lunDay=' + encodeURIComponent(day); /**/
     
-    let json = this.doRequest(this.apiUrlToSolar + params);
+    let json = await this.doRequest(this.apiUrlToSolar + params);
+    if (this.isDebug) { // debug out
+        console.log(json);
+    }
+
     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
-        // console.log(json.response.body.items.item);
+        if (this.isDebug) { // debug out
+            console.log(json.response.body.items.item);
+        }
         return json.response.body.items.item;
     }
     return false;
 }
 
 
-calendar.toSolarsAsync = function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth, apiKey) {
+calendar.toSolarsAsync = async function(fromSolYear, toSolYear, lunMonth, lunDay, leapMonth, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toSolarsAsync(${fromSolYear}, ${toSolYear}, ${lunMonth}, ${lunDay}, ${leapMonth})`);
+    }
 
     fromSolYear = this.check(fromSolYear, 4);
     toSolYear = this.check(toSolYear, 4);
@@ -398,7 +457,6 @@ calendar.toSolarsAsync = function(fromSolYear, toSolYear, lunMonth, lunDay, leap
         console.error('Error: input parameters! invalid string length (4,2,2)');
         return false;
     }
-    console.log(`toSolarsAsync(${fromSolYear}, ${toSolYear}, ${lunMonth}, ${lunDay}, ${leapMonth})`);
 
     leapMonth = leapMonth ? '윤' : '평';
 
@@ -409,15 +467,25 @@ calendar.toSolarsAsync = function(fromSolYear, toSolYear, lunMonth, lunDay, leap
     params += '&lunDay=' + encodeURIComponent(lunDay); /**/
     params += '&leapMonth=' + encodeURIComponent(leapMonth); /**/
     
-    let json = this.doRequest(this.apiUrlToSolars + params);
+    let json = await this.doRequest(this.apiUrlToSolars + params);
+    if (this.isDebug) { // debug out
+        console.log(json);
+    }
+
     if (json && json.response && json.response.body && json.response.body.items) {
-        // console.log(json.response.body.items.item);
+        if (this.isDebug) { // debug out
+            console.log(json.response.body.items.item);
+        }
         return json.response.body.items;
     }
     return false;
 }
 
-calendar.toJuliusAsync = function(solJd, apiKey) {
+calendar.toJuliusAsync = async function(solJd, apiKey) {
+
+    if (this.isDebug) { // debug out
+        console.log(`toJuliusAsync(${solJd})`);
+    }
 
     if (!solJd) {
         console.error('Error: input parameters! required not empty.');
@@ -427,14 +495,19 @@ calendar.toJuliusAsync = function(solJd, apiKey) {
         console.error('Error: input parameters! required only string type');
         return false;
     }
-    console.log(`toJuliusAsync(${solJd})`);
 
     let params = '?ServiceKey=' + encodeURIComponent(apiKey ? apiKey : this.apiKey); /*Service Key*/
     params += '&solJd=' + encodeURIComponent(solJd); /**/
     
-    let json = this.doRequest(this.apiUrlToJulius + params);
+    let json = await this.doRequest(this.apiUrlToJulius + params);
+    if (this.isDebug) { // debug out
+        console.log(json);
+    }
+
     if (json && json.response && json.response.body && json.response.body.items && json.response.body.items.item) {
-        // console.log(json.response.body.items.item);
+        if (this.isDebug) { // debug out
+            console.log(json.response.body.items.item);
+        }
         return json.response.body.items.item;
     }
     return false;
